@@ -129,6 +129,9 @@ def gameLoop():
     # Score
     score = 0
 
+    # Counter for food items eaten
+    food_counter = 0
+
     while not game_over:
 
         while game_close == True:
@@ -216,6 +219,13 @@ def gameLoop():
             foodx, foody = generate_food(obstacles, walls)
             Length_of_snake += 1
             score += 1
+            food_counter += 1
+
+            # Check if 3 food items have been eaten
+            if food_counter == 3:
+                obstacles = generate_obstacles(10)  # Regenerate obstacles
+                walls = generate_maze_walls()  # Regenerate maze walls
+                food_counter = 0  # Reset the counter
 
         clock.tick(snake_speed)
 
