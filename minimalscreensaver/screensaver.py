@@ -5,39 +5,38 @@ from time import strftime
 class ScreenSaver:
     def __init__(self, root):
         self.root = root
-        self.root.attributes("-fullscreen", True)  # Fullscreen mode
+        self.root.title("Minimalist Screensaver Timer")
         self.root.configure(bg="black")  # Black background
-        self.root.bind("<Escape>", self.close)  # Press Escape to exit
+
+        # Allow resizing and minimize
+        self.root.resizable(True, True)
+        self.root.minsize(400, 200)  # Minimum window size
 
         # Time Label
         self.time_label = tk.Label(
             root,
-            font=("Helvetica Neue", 150, "bold"),  # Use Helvetica Neue if available
+            font=("Helvetica Neue", 100, "bold"),  # Use Helvetica Neue if available
             bg="black",  # Background color
             fg="white",  # Text color
         )
-        self.time_label.pack(expand=True)
+        self.time_label.pack(expand=True, fill="both")
 
         # Check if Helvetica Neue is available, otherwise fallback to Helvetica or Arial
         try:
-            self.time_label.config(font=("Helvetica Neue", 150, "bold"))
+            self.time_label.config(font=("Helvetica Neue", 100, "bold"))
         except tk.TclError:
             try:
-                self.time_label.config(font=("Helvetica", 150, "bold"))  # Fallback to Helvetica
+                self.time_label.config(font=("Helvetica", 100, "bold"))  # Fallback to Helvetica
             except tk.TclError:
-                self.time_label.config(font=("Arial", 150, "bold"))  # Fallback to Arial
+                self.time_label.config(font=("Arial", 100, "bold"))  # Fallback to Arial
 
         self.update_time()  # Start updating the time
 
     # Function to update the time
     def update_time(self):
-        current_time = strftime("%H:%M")  # Format: HH:MM
+        current_time = strftime("%H:%M:%S")  # Format: HH:MM:SS
         self.time_label.config(text=current_time)
         self.root.after(1000, self.update_time)  # Update every second
-
-    # Function to close the screensaver
-    def close(self, event=None):
-        self.root.destroy()
 
 
 # Main Function
